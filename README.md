@@ -7,7 +7,10 @@ On Linux:
 $: pip3 install flask
 $: cd server
 $: python3 app.py
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+>>>>>>> bd0b76b (Installing info)
 '''
 
 On Windows:
@@ -31,6 +34,7 @@ pip install flask
 cd client
 flask run
 '''
+<<<<<<< HEAD
 =======
 ```
 
@@ -56,5 +60,7 @@ cd client
 flask run
 ```
 >>>>>>> Stashed changes
+=======
+>>>>>>> bd0b76b (Installing info)
 
 
