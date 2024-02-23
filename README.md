@@ -30,19 +30,3 @@ pip install flask
 cd client
 flask run
 ```
-
-# Starting the client
-On Linux:
-```
-$: pip3 instal flask
-$: cd client
-$: flask run
-```
-
-On windows:
-```
-pip install flask
-cd client
-flask run
-```
-
