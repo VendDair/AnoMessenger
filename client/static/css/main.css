@@ -1,0 +1,62 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(20,20,20);
+}
+
+form {
+  position: fixed;
+  bottom: 2vh;
+  left: 50%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  transform: translateX(-50%);
+  gap: 10px;
+  z-index: 2;
+}
+
+.info {
+  position: fixed;
+  padding-top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  z-index: 2;
+}
+
+input {
+  border-radius: 7px;
+  padding: 5px;
+  font-size: 1pc;
+}
+button {
+  border-radius: 7px;
+  font-size: 1pc;
+}
+
+.bg {
+  position: fixed;
+  background-image: url("/static/cute_asf.jpg");
+  width: 100%;
+  max-width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.4;
+  background-size: cover;
+  background-position: center;
+}
+
+.messages_container {
+  color: white;
+  width: 90vw;
+  position: relative;
+  top: 10vh;
+  left: 10vw;
+  font-size: 20px;
+  overflow-y: auto;
+  margin-bottom: 200px;
+}

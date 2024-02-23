@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Client</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="/static/css/main.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+  </head>
+  <body>
+    <div class="bg">
+      
+    </div>
+    <div class="info">
+      <input type="text" name="name" value="" class="name" placeholder="NAME">
+      <input type="password" name="key" value="" class="key" placeholder="KEY">
+      <input type="password" name="ulr" class="url" value="" placeholder="SERVER URL">
+      
+    </div>
+    <form>
+      <input type="text" name="text" value="" class="text" placeholder="MESSAGE">
+      <button type="submit">SEND</button>
+      <button type="button" class="clear">CLEAR</button>
+      <button type="button" class="update">UPDATE</button>
+    </form>
+    <div class="messages_container">
+      
+    </div>
+  </body>
+</html>
+<script>
+function encryptMessage(message, key) {
+  const encrypted = CryptoJS.AES.encrypt(message, key).toString();
+  return encrypted;
+}
+function decryptMessage(encryptedMessage, key) {
+  const decrypted = CryptoJS.AES.decrypt(encryptedMessage, key).toString(CryptoJS.enc.Utf8);
+  return decrypted;
+}
+$(document).ready(function() {
+  $.ajax({
+    //url: "http://127.0.0.1:1234/init",
+    url: $(".url").val() + "/init",
+    type: "POST",
+    success: function(response) {
+      for (var i = 0; i < response["message"].length; i++) {
+        message = response["message"][i]
+        name = response["names"][i]
+        let p = $("<p>")
+        p.text(name + ": " + message)
+        $(".messages_container").append(p)
+      }
+    }
+  })
+  check_for_new_messages()
+
+})
+function send() {
+  let key = $(".key").val()
+  let enc_mes = encryptMessage($(".text").val(), key)
+  let enc_name = encryptMessage($(".name").val(), key)
+  $.ajax({
+    //url: "http://127.0.0.1:1234/send",
+    url: $(".url").val() + "/send",
+    type: "POST",
+    data: JSON.stringify({"data": enc_mes, "name": enc_name}),
+    contentType: "application/json",
+    success: function(response) {
+      let p = $("<p>")
+      p.text(decryptMessage(response["name"], key) + ": " + decryptMessage(response["message"], key))
+      $(".messages_container").append(p)
+      $(".text").val("")
+    }
+  })
+}
+  
+
+$("form").submit(function(event) {
+  event.preventDefault()
+  send()
+})
+$(".clear").click(function() {
+  $.ajax({
+    //url: "http://127.0.0.1:1234/clear",
+    url: $(".url").val() + "/clear",
+    type: "POST",
+    success: function() {
+      $(".messages_container").empty()
+    }
+  })
+})
+async function check_for_new_messages() {
+  while (true) {
+    console.log($(".url").val() + "/check")
+    $.ajax({
+      //url: "http://127.0.0.1:1234/init",
+      url: $(".url").val() + "/init",
+      type: "POST",
+      success: function(response) {
+        $(".messages_container").empty()
+        let key = $(".key").val()
+        for (var i = 0; i < response["message"].length; i++) {
+          message = decryptMessage(response["message"][i][0], key)
+          name = decryptMessage(response["names"][i][0], key)
+          let p = $("<p>")
+          p.text(name + ": " + message)
+          $(".messages_container").append(p)
+        }
+      }
+    })  
+    //$.ajax({
+    //  //url: "http://127.0.0.1:1234/check",
+    //  urL: $(".url").val() + "/check",
+    //  type: "POST",
+    //  data: JSON.stringify({"length": $(".messages_container").children().length}),
+    //  contentType: "application/json",
+    //  success: function(response) {
+    //    if (response["code"] == "200") {
+    //      $(".messages_container").empty()
+    //      for (var i = 0; i < response["message"].length; i++) {
+    //        message = decryptMessage(response["message"][i][0], $(".key").val())
+    //        name = decryptMessage(response["names"][i][0], $(".key").val())
+    //        let p = $("<p>")
+    //        p.text(name + ": " + message)
+    //        $(".messages_container").append(p)
+    //      } 
+    //    }
+    //    else if (response["code"] == "0") {
+    //      $(".messages_container").empty()
+    //    }
+    //  }
+    //})
+    await new Promise(resolve => setTimeout(resolve, 2000))
+  }
+}
+$(".update").click(function() {
+  $.ajax({
+    //url: "http://127.0.0.1:1234/init",
+    url: $(".url").val() + "/init",
+    type: "POST",
+    success: function(response) {
+      $(".messages_container").empty()
+      let key = $(".key").val()
+      for (var i = 0; i < response["message"].length; i++) {
+        message = decryptMessage(response["message"][i][0], key)
+        name = decryptMessage(response["names"][i][0], key)
+        let p = $("<p>")
+        p.text(name + ": " + message)
+        $(".messages_container").append(p)
+      }
+    }
+  })
+})
+</script>
