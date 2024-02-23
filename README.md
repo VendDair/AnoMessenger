@@ -10,7 +10,7 @@ $: python3 app.py
 ```
 
 On Windows:
-'''
+```
 pip install flask
 cd server
 python app.py
@@ -33,14 +33,14 @@ flask run
 
 # Starting the client
 On Linux:
-```bash
+```
 $: pip3 instal flask
 $: cd client
 $: flask run
 ```
 
 On windows:
-```bash
+```
 pip install flask
 cd client
 flask run
