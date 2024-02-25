@@ -93,7 +93,6 @@ $(".clear").click(function() {
 })
 async function check_for_new_messages() {
   while (true) {
-    console.log($(".url").val() + "/check")
     $.ajax({
       //url: "http://127.0.0.1:1234/init",
       url: $(".url").val() + "/init",
