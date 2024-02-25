@@ -1,5 +1,5 @@
 # AnoMessenger
-It's a simple client/server messenger app with encryption feature
+It's a simple client/server messenger app with encryption feature 
 It doesn't require phone or email to use it
 
 # Starting the server
